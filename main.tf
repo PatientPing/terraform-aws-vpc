@@ -30,6 +30,12 @@ resource "aws_vpc" "this" {
   enable_dns_support               = var.enable_dns_support
   assign_generated_ipv6_cidr_block = var.assign_generated_ipv6_cidr_block
 
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
+
   tags = merge(
     {
       "Name" = format("%s", var.name)
@@ -255,6 +261,12 @@ resource "aws_subnet" "public" {
   availability_zone       = element(var.azs, count.index)
   map_public_ip_on_launch = var.map_public_ip_on_launch
 
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
+
   tags = merge(
     {
       "Name" = format(
@@ -278,6 +290,12 @@ resource "aws_subnet" "private" {
   cidr_block        = var.private_subnets[count.index]
   availability_zone = element(var.azs, count.index)
 
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
+
   tags = merge(
     {
       "Name" = format(
@@ -300,6 +318,12 @@ resource "aws_subnet" "database" {
   vpc_id            = local.vpc_id
   cidr_block        = var.database_subnets[count.index]
   availability_zone = element(var.azs, count.index)
+
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
 
   tags = merge(
     {
@@ -340,6 +364,12 @@ resource "aws_subnet" "redshift" {
   cidr_block        = var.redshift_subnets[count.index]
   availability_zone = element(var.azs, count.index)
 
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
+
   tags = merge(
     {
       "Name" = format(
@@ -379,6 +409,12 @@ resource "aws_subnet" "elasticache" {
   cidr_block        = var.elasticache_subnets[count.index]
   availability_zone = element(var.azs, count.index)
 
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
+
   tags = merge(
     {
       "Name" = format(
@@ -409,6 +445,12 @@ resource "aws_subnet" "intra" {
   vpc_id            = local.vpc_id
   cidr_block        = var.intra_subnets[count.index]
   availability_zone = element(var.azs, count.index)
+
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
 
   tags = merge(
     {
