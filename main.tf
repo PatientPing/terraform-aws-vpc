@@ -37,6 +37,12 @@ resource "aws_vpc" "this" {
   enable_classiclink_dns_support   = var.enable_classiclink_dns_support
   assign_generated_ipv6_cidr_block = var.enable_ipv6
 
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
+
   tags = merge(
     {
       "Name" = format("%s", var.name)
@@ -291,6 +297,12 @@ resource "aws_subnet" "public" {
 
   ipv6_cidr_block = var.enable_ipv6 && length(var.public_subnet_ipv6_prefixes) > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, var.public_subnet_ipv6_prefixes[count.index]) : null
 
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
+
   tags = merge(
     {
       "Name" = format(
@@ -317,6 +329,12 @@ resource "aws_subnet" "private" {
 
   ipv6_cidr_block = var.enable_ipv6 && length(var.private_subnet_ipv6_prefixes) > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, var.private_subnet_ipv6_prefixes[count.index]) : null
 
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
+
   tags = merge(
     {
       "Name" = format(
@@ -342,6 +360,12 @@ resource "aws_subnet" "database" {
   assign_ipv6_address_on_creation = var.database_subnet_assign_ipv6_address_on_creation == null ? var.assign_ipv6_address_on_creation : var.database_subnet_assign_ipv6_address_on_creation
 
   ipv6_cidr_block = var.enable_ipv6 && length(var.database_subnet_ipv6_prefixes) > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, var.database_subnet_ipv6_prefixes[count.index]) : null
+
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
 
   tags = merge(
     {
@@ -385,6 +409,12 @@ resource "aws_subnet" "redshift" {
 
   ipv6_cidr_block = var.enable_ipv6 && length(var.redshift_subnet_ipv6_prefixes) > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, var.redshift_subnet_ipv6_prefixes[count.index]) : null
 
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
+
   tags = merge(
     {
       "Name" = format(
@@ -427,6 +457,12 @@ resource "aws_subnet" "elasticache" {
 
   ipv6_cidr_block = var.enable_ipv6 && length(var.elasticache_subnet_ipv6_prefixes) > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, var.elasticache_subnet_ipv6_prefixes[count.index]) : null
 
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
+
   tags = merge(
     {
       "Name" = format(
@@ -460,6 +496,12 @@ resource "aws_subnet" "intra" {
   assign_ipv6_address_on_creation = var.intra_subnet_assign_ipv6_address_on_creation == null ? var.assign_ipv6_address_on_creation : var.intra_subnet_assign_ipv6_address_on_creation
 
   ipv6_cidr_block = var.enable_ipv6 && length(var.intra_subnet_ipv6_prefixes) > 0 ? cidrsubnet(aws_vpc.this[0].ipv6_cidr_block, 8, var.intra_subnet_ipv6_prefixes[count.index]) : null
+
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
 
   tags = merge(
     {
